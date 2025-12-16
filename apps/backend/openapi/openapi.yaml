@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: Expense Manager API
+  version: 0.1.0
+servers:
+  - url: http://localhost:4000
+paths:
+  /api/expenses:
+    post:
+      summary: Create a new expense
+      operationId: createExpense
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewExpense'
+      responses:
+        '201':
+          description: Expense created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    NewExpense:
+      type: object
+      required:
+        - description
+        - amount
+      properties:
+        description:
+          type: string
+        amount:
+          type: number
+          format: double
+    Expense:
+      allOf:
+        - $ref: '#/components/schemas/NewExpense'
+        - type: object
+          required:
+            - id
+            - createdAt
+          properties:
+            id:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string

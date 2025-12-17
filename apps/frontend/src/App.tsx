@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { createExpense } from './api';
 import type { Expense } from './types';
+import { useNavigate } from 'react-router-dom';
 
 const App: React.FC = () => {
+  const navigate = useNavigate();
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,6 +34,7 @@ const App: React.FC = () => {
       setLastCreated(expense);
       setDescription('');
       setAmount('');
+      navigate("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {

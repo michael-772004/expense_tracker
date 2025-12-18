@@ -16,6 +16,13 @@ const GetAllExpensesContainer : React.FC = ()=>{
     const [totalItems , settotalItems] = useState<number>(0);
     const limit : number = 5;
 
+    const [tempdata , settempdata] = useState<GetExpense>({
+        id : "",
+        description : "",
+        amount : 0,
+        createdAt : ""
+    })
+
     const handleEdit = (id : string,description: string,amount : number,createdAt : string) => {
         const data = {
             id,
@@ -23,7 +30,7 @@ const GetAllExpensesContainer : React.FC = ()=>{
             amount,
             createdAt
         }
-        return <EditExpenseContainer propData={data} />
+        settempdata(data);
     }
 
     const handleDelete = async (id: string) : Promise<void> => {
@@ -128,7 +135,12 @@ const GetAllExpensesContainer : React.FC = ()=>{
         getfun();
     },[currpage])
 
-    return <GetAllExpensesComponent loading={loading} err={err} message={message} currpage={currpage} data={data} totalItems={totalItems} handleNext={handleNext} handlePrev={handlePrev} handleCreate={handleCreate} handleEdit={handleEdit} handleDelete={handleDelete} />
+    return (
+        <>
+        { tempdata.id !== "" && (<EditExpenseContainer propData={tempdata} />)}
+        { tempdata.id === "" && (<GetAllExpensesComponent loading={loading} err={err} message={message} currpage={currpage} data={data} totalItems={totalItems} handleNext={handleNext} handlePrev={handlePrev} handleCreate={handleCreate} handleEdit={handleEdit} handleDelete={handleDelete} />)}
+        </>
+    ) 
 }
 
 export default GetAllExpensesContainer;

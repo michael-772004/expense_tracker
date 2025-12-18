@@ -1,13 +1,13 @@
-export type GetExpenseRequest = {
-    start : number,
-    limit : number
-}
-
 export type GetExpense = {
     id : string,
     description : string,
     amount : number,
     createdAt : string
+}
+
+export type GetExpenseRequest = {
+    start : number,
+    limit : number
 }
 
 export type GetExpenseResponse = {

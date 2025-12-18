@@ -19,10 +19,6 @@ export const getAllExpensesResponseValidator = z.object({
     totalPages : z.number()
 })
 
-// export const editExpenseRequestValidator = z.object({
-//     description?: z.string(),
-//     amount?: z.number()
-// })
 
 export const editExpenseResponseValidator = z.object({
     data : z.object({

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Expense } from "../component/EditExpenseComponent";
 import EditExpenseComponent from "../component/EditExpenseComponent";
 import { editExpenseResponse } from "../dto/expenseDto";
-import { useNavigate } from "react-router-dom";
 
 type EditExpenseContainerProp = {
     propData : Expense
@@ -11,7 +10,6 @@ type EditExpenseContainerProp = {
 const EditExpenseContainer : React.FC<EditExpenseContainerProp> = ({
     propData,
 })=>{
-    const navigate = useNavigate();
     const [loading,setloading] = useState<boolean>(false);
     const [err,seterr] = useState<string | null>(null);
     const [message,setmessage] = useState<string>("");
@@ -22,8 +20,7 @@ const EditExpenseContainer : React.FC<EditExpenseContainerProp> = ({
         createdAt: ""
     });
 
-    const prefunc = ()=>{
-        console.log("edit 1");
+    const prefunc = () : void =>{
         setdata(propData);
     }
 
@@ -35,6 +32,7 @@ const EditExpenseContainer : React.FC<EditExpenseContainerProp> = ({
     }
 
     const handleSubmit = async (e : React.FormEvent) :Promise<void>=>{
+        e.preventDefault();
 
         if(data.description === ""){
             setmessage("description should not be empty");
@@ -42,6 +40,7 @@ const EditExpenseContainer : React.FC<EditExpenseContainerProp> = ({
         }
         if(data.amount === 0){
             setmessage("amount should not be empty");
+            return;
         }
 
         try{
@@ -55,8 +54,8 @@ const EditExpenseContainer : React.FC<EditExpenseContainerProp> = ({
             })
 
             const response : editExpenseResponse  = await api.json();
+            console.log("response : ",response);
             setmessage(response.message)
-            navigate("/")
         }
         catch(error){
             if(error instanceof Error){
@@ -69,9 +68,13 @@ const EditExpenseContainer : React.FC<EditExpenseContainerProp> = ({
         }
     }
     
+    useEffect(()=>{
+        console.log("hi")
+        prefunc();
+    },[])
 
     
-    return <EditExpenseComponent loading={loading} err={err} data={data} handleChange={handleChange} handleSubmit={handleSubmit}/>
+    return <EditExpenseComponent loading={loading} err={err} data={data} message={message} handleChange={handleChange} handleSubmit={handleSubmit}/>
 }
 
 export default EditExpenseContainer;

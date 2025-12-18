@@ -1,5 +1,6 @@
 import React from "react";
 import { GetExpense } from "../dto/expenseDto";
+import EditExpenseContainer from "../container/EditExpenseContainer";
 
 export type Expense = GetExpense;
 
@@ -31,11 +32,12 @@ const GetAllExpensesComponent : React.FC<GetAllExpensesProp> = ({
     handleEdit,
     handleDelete
 })=>{
+    
     return(
         <>
         <div>
             <h1>Expenses</h1>
-            <button onClick={handleCreate}>Create</button>
+            <button onClick={handleCreate} className="p-2 border-1 border-green-600 bg-green-200 shadow rounded-lg">Create</button>
             <p >{message}</p>
 
             <p>Pages {currpage} of {totalItems}</p>
@@ -64,8 +66,9 @@ const GetAllExpensesComponent : React.FC<GetAllExpensesProp> = ({
                 <button type="button" onClick={handleNext} className="p-2 rounded-lg border-1 border-gray-200">Next</button>
             </div>
             
-            
         </div>
+        
+        
         </>
     )
 }

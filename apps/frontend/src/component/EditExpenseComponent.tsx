@@ -7,6 +7,7 @@ type EditExpenseProp = {
     loading : boolean,
     err : string | null,
     data : Expense,
+    message : string,
     handleChange : (e: React.ChangeEvent<HTMLInputElement>)=>void,
     handleSubmit : (e:FormEvent)=> void
 }
@@ -15,6 +16,7 @@ const EditExpenseComponent : React.FC<EditExpenseProp> = ({
     loading,
     err,
     data,
+    message,
     handleChange,
     handleSubmit
 })=>{
@@ -24,6 +26,13 @@ const EditExpenseComponent : React.FC<EditExpenseProp> = ({
             <div>
                 <h1>Edit expense</h1>
                 
+
+                {loading && (<p>Loading...</p>)}
+
+                {err !== null && (<p>{err}</p>)}
+
+                <p>Message : {message}</p>
+
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="">Description</label>
                     <input 
@@ -35,7 +44,7 @@ const EditExpenseComponent : React.FC<EditExpenseProp> = ({
 
                     <label htmlFor="">Amount</label>
                     <input 
-                        type="text"
+                        type="number"
                         name="amount"
                         value={data.amount}
                         onChange={handleChange}
